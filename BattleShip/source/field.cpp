@@ -21,13 +21,13 @@ Field::Field(int size_x, int size_y)
     }
 }
 
-Field::Field(Field& other) :
+Field::Field(const Field& other) :
     field_(other.field_),
     size_x_(other.size_x_),
     size_y_(other.size_y_)
 {}
 
-Field& Field::operator=(Field& other)
+Field& Field::operator=(const Field& other)
 {
     if (this == &other) {
         throw std::logic_error("Can't copy oneself");
@@ -122,7 +122,7 @@ void Field::attackCell(int x, int y, int damage)
     }
 }
 
-void Field::printField()
+void Field::printField() const
 {
     for (int y = 0; y < size_y_; y++) {
         for (int x = 0; x < size_x_; x++) {
@@ -152,7 +152,7 @@ Field::FieldCell::FieldCell()
     ship_segment_index_ = -1;
 }
 
-FieldCellStatus Field::FieldCell::getStatus()
+FieldCellStatus Field::FieldCell::getStatus() const
 {
     return status_;
 }
@@ -169,7 +169,7 @@ void Field::FieldCell::attackCell(int damage)
     }
 }
 
-bool Field::FieldCell::isShip()
+bool Field::FieldCell::isShip() const
 {
     return ship_ != nullptr;
 }
@@ -180,7 +180,7 @@ void Field::FieldCell::setShipSegment(Ship* ship, int index)
     ship_segment_index_ = index;
 }
 
-ShipSegmentStatus Field::FieldCell::getShipSegmentStatus()
+ShipSegmentStatus Field::FieldCell::getShipSegmentStatus() const
 {
     return ship_->getSegmentStatus(ship_segment_index_);
 }

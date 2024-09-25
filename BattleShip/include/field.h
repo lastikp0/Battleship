@@ -25,9 +25,9 @@ class Field
 public:
     Field(int size_x, int size_y);
 
-    Field(Field& other);
+    Field(const Field& other);
 
-    Field& operator=(Field& other);
+    Field& operator=(const Field& other);
 
     Field(Field&& other);
 
@@ -39,7 +39,7 @@ public:
 
     void attackCell(int x, int y, int damage);
 
-    void printField();
+    void printField() const;
 
 private:
     class FieldCell
@@ -49,17 +49,17 @@ private:
 
         ~FieldCell() = default;
 
-        FieldCellStatus getStatus();
+        FieldCellStatus getStatus() const;
 
         void setStatus(FieldCellStatus status);
 
         void attackCell(int damage);
 
-        bool isShip();
+        bool isShip() const;
 
         void setShipSegment(Ship* ship, int index);
 
-        ShipSegmentStatus getShipSegmentStatus();
+        ShipSegmentStatus getShipSegmentStatus() const;
 
     private:
         FieldCellStatus status_;

@@ -19,11 +19,12 @@ Ship::~Ship()
     segments_.clear();
 }
 
-int Ship::getSize(){
+int Ship::getSize() const
+{
     return size_;
 }
 
-ShipSegmentStatus Ship::getSegmentStatus(int index)
+ShipSegmentStatus Ship::getSegmentStatus(int index) const
 {
     if (index < 0 || index >= size_) {
         throw std::out_of_range("Ship segment index out of range");
@@ -32,7 +33,7 @@ ShipSegmentStatus Ship::getSegmentStatus(int index)
     return segments_[index].getStatus();
 }
 
-ShipStatus Ship::getShipStatus()
+ShipStatus Ship::getShipStatus() const
 {
     int dead_flag = 1;
     for (int i = 0; i < size_; i++) {
@@ -90,7 +91,7 @@ void Ship::ShipSegment::takeHeal(int heal)
     health_ = std::min(kMaxHealth, health_ + heal);
 }
 
-ShipSegmentStatus Ship::ShipSegment::getStatus()
+ShipSegmentStatus Ship::ShipSegment::getStatus() const
 {
     if (health_ == kMaxHealth) {
         return ShipSegmentStatus::intact;

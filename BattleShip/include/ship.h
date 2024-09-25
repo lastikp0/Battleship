@@ -24,11 +24,11 @@ public:
 
     ~Ship();
 
-    int getSize();
+    int getSize() const;
 
-    ShipSegmentStatus getSegmentStatus(int index);
+    ShipSegmentStatus getSegmentStatus(int index) const;
 
-    ShipStatus getShipStatus();
+    ShipStatus getShipStatus() const;
 
     void damageSegment(int index, int damage);
 
@@ -46,7 +46,7 @@ private:
 
         void takeHeal(int heal);
 
-        ShipSegmentStatus getStatus();
+        ShipSegmentStatus getStatus() const;
 
     private:
         const int kMaxHealth = 2;
