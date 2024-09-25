@@ -49,7 +49,7 @@ Field::Field(Field&& other) :
 Field& Field::operator=(Field&& other)
 {
     if (this == &other) {
-        throw std::logic_error("Can't copy oneself");
+        throw std::logic_error("Can't move to oneself");
     }
 
     field_ = std::move(other.field_);
