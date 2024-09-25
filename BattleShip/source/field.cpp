@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <stdexcept>
 
+Field::Field() = default;
+
 Field::Field(int size_x, int size_y)
 {
     if (size_x <= 0 || size_y <= 0) {
@@ -16,26 +18,33 @@ Field::Field(int size_x, int size_y)
 
     field_.resize(size_x_);
 
-    for (int i = 0; i < size_x; i++) {
-        field_[i].resize(size_y_);
+    for (int i = 0; i < size_x_; i++) {
+        for (int j = 0; j < size_y_; j++) {
+            field_[i].push_back(FieldCell());
+        }
     }
 }
 
 Field::Field(const Field& other) :
-    field_(other.field_),
-    size_x_(other.size_x_),
-    size_y_(other.size_y_)
+    Field(other.size_x_, other.size_x_)
 {}
 
 Field& Field::operator=(const Field& other)
 {
     if (this == &other) {
-        throw std::logic_error("Can't copy oneself");
+        return *this;
     }
 
-    field_ = other.field_;
     size_x_ = other.size_x_;
     size_y_ = other.size_y_;
+
+    field_.resize(size_x_);
+
+    for (int i = 0; i < size_x_; i++) {
+        for (int j = 0; j < size_y_; j++) {
+            field_[i].push_back(FieldCell());
+        }
+    }
 
     return *this;
 }
@@ -49,7 +58,7 @@ Field::Field(Field&& other) :
 Field& Field::operator=(Field&& other)
 {
     if (this == &other) {
-        throw std::logic_error("Can't move to oneself");
+        return *this;
     }
 
     field_ = std::move(other.field_);
@@ -122,7 +131,7 @@ void Field::attackCell(int x, int y, int damage)
     }
 }
 
-void Field::printField() const
+void Field::printField() const noexcept
 {
     for (int y = 0; y < size_y_; y++) {
         for (int x = 0; x < size_x_; x++) {
@@ -152,35 +161,35 @@ Field::FieldCell::FieldCell()
     ship_segment_index_ = -1;
 }
 
-FieldCellStatus Field::FieldCell::getStatus() const
+FieldCellStatus Field::FieldCell::getStatus() const noexcept
 {
     return status_;
 }
 
-void Field::FieldCell::setStatus(FieldCellStatus status)
+void Field::FieldCell::setStatus(FieldCellStatus status) noexcept
 {
     status_ = status;
 }
 
-void Field::FieldCell::attackCell(int damage)
+void Field::FieldCell::attackCell(int damage) noexcept
 {
     if (ship_ != nullptr) {
         ship_->damageSegment(ship_segment_index_, damage);
     }
 }
 
-bool Field::FieldCell::isShip() const
+bool Field::FieldCell::isShip() const noexcept
 {
     return ship_ != nullptr;
 }
 
-void Field::FieldCell::setShipSegment(Ship* ship, int index)
+void Field::FieldCell::setShipSegment(Ship* ship, int index) noexcept
 {
     ship_ = ship;
     ship_segment_index_ = index;
 }
 
-ShipSegmentStatus Field::FieldCell::getShipSegmentStatus() const
+ShipSegmentStatus Field::FieldCell::getShipSegmentStatus() const noexcept
 {
     return ship_->getSegmentStatus(ship_segment_index_);
 }

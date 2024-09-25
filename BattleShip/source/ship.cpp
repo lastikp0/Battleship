@@ -3,11 +3,15 @@
 #include <vector>
 #include <stdexcept>
 
-Ship::Ship(int size) : size_(size)
+Ship::Ship() = default;
+
+Ship::Ship(int size)
 {
     if (size < kMinSize || size > kMaxSize) {
         throw std::logic_error("Ship size can be from 1 to 4");
     }
+
+    size_ = size;
 
     for (int i = 0; i < size_; i++) {
         segments_.push_back(ShipSegment());
@@ -19,7 +23,7 @@ Ship::~Ship()
     segments_.clear();
 }
 
-int Ship::getSize() const
+int Ship::getSize() const noexcept
 {
     return size_;
 }
@@ -33,7 +37,7 @@ ShipSegmentStatus Ship::getSegmentStatus(int index) const
     return segments_[index].getStatus();
 }
 
-ShipStatus Ship::getShipStatus() const
+ShipStatus Ship::getShipStatus() const noexcept
 {
     int dead_flag = 1;
     for (int i = 0; i < size_; i++) {
@@ -91,7 +95,7 @@ void Ship::ShipSegment::takeHeal(int heal)
     health_ = std::min(kMaxHealth, health_ + heal);
 }
 
-ShipSegmentStatus Ship::ShipSegment::getStatus() const
+ShipSegmentStatus Ship::ShipSegment::getStatus() const noexcept
 {
     if (health_ == kMaxHealth) {
         return ShipSegmentStatus::intact;

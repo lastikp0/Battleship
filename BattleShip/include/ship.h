@@ -20,15 +20,17 @@ enum class ShipSegmentStatus : int
 class Ship
 {
 public:
-    Ship(int size);
+    Ship();
+
+    explicit Ship(int size);
 
     ~Ship();
 
-    int getSize() const;
+    int getSize() const noexcept;
 
     ShipSegmentStatus getSegmentStatus(int index) const;
 
-    ShipStatus getShipStatus() const;
+    ShipStatus getShipStatus() const noexcept;
 
     void damageSegment(int index, int damage);
 
@@ -46,16 +48,16 @@ private:
 
         void takeHeal(int heal);
 
-        ShipSegmentStatus getStatus() const;
+        ShipSegmentStatus getStatus() const noexcept;
 
     private:
-        const int kMaxHealth = 2;
+        int kMaxHealth = 2;
         int health_;
     };
 
-    const int kMinSize = 1;
-    const int kMaxSize = 4;
-    const int size_;
+    int kMinSize = 1;
+    int kMaxSize = 4;
+    int size_;
     std::vector<ShipSegment> segments_;
 };
 

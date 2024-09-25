@@ -23,7 +23,9 @@ enum class FieldCellStatus : int
 class Field
 {
 public:
-    Field(int size_x, int size_y);
+    Field();
+
+    explicit Field(int size_x, int size_y);
 
     Field(const Field& other);
 
@@ -39,7 +41,7 @@ public:
 
     void attackCell(int x, int y, int damage);
 
-    void printField() const;
+    void printField() const noexcept;
 
 private:
     class FieldCell
@@ -49,17 +51,17 @@ private:
 
         ~FieldCell() = default;
 
-        FieldCellStatus getStatus() const;
+        FieldCellStatus getStatus() const noexcept;
 
-        void setStatus(FieldCellStatus status);
+        void setStatus(FieldCellStatus status) noexcept;
 
-        void attackCell(int damage);
+        void attackCell(int damage) noexcept;
 
-        bool isShip() const;
+        bool isShip() const noexcept;
 
-        void setShipSegment(Ship* ship, int index);
+        void setShipSegment(Ship* ship, int index) noexcept;
 
-        ShipSegmentStatus getShipSegmentStatus() const;
+        ShipSegmentStatus getShipSegmentStatus() const noexcept;
 
     private:
         FieldCellStatus status_;

@@ -4,26 +4,35 @@
 #include <iostream>
 #include <initializer_list>
 #include <vector>
-#include <tuple>
 #include "ship.h"
 #include "field.h"
 
 class ShipManager
 {
 public:
-    ShipManager(std::initializer_list<int> ship_sizes);
+    ShipManager();
+
+    explicit ShipManager(std::initializer_list<int> ship_sizes);
 
     ~ShipManager();
 
-    int getSize() const;
+    void printShips() const noexcept;
 
-    void placeShips(Field& field, std::initializer_list<std::tuple<int, int, ShipOrientation>> ship_coordinates);
+    void placeShip(Field& field, int index, int x, int y, ShipOrientation orientation);
 
-    void printShips() const;
+    void addShip(int ship_size) noexcept;
+
+    const std::vector<Ship>& getUnusedShips() const noexcept;
+
+    const std::vector<Ship>& getUsedShips() const noexcept;
+
+    int getUnusedShipsSize() const noexcept;
+
+    int getUsedShipsSize() const noexcept;
 
 private:
-    std::vector<Ship> ships_;
-    const int size_;
+    std::vector<Ship> unused_ships_;
+    std::vector<Ship> used_ships_;
 };
 
 #endif
