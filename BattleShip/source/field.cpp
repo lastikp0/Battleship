@@ -171,7 +171,7 @@ void Field::FieldCell::setStatus(FieldCellStatus status) noexcept
     status_ = status;
 }
 
-void Field::FieldCell::attackCell(int damage) noexcept
+void Field::FieldCell::attackCell(int damage)
 {
     if (ship_ != nullptr) {
         ship_->damageSegment(ship_segment_index_, damage);
