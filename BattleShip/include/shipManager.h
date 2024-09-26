@@ -20,7 +20,7 @@ public:
 
     void placeShip(Field& field, int index, int x, int y, ShipOrientation orientation);
 
-    void addShip(int ship_size) noexcept;
+    void addShip(int ship_size);
 
     const std::vector<Ship>& getUnusedShips() const noexcept;
 
