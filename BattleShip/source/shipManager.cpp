@@ -76,7 +76,7 @@ void ShipManager::placeShip(Field& field, int index, int x, int y, ShipOrientati
     unused_ships_.erase(unused_ships_.begin() + index);
 }
 
-void ShipManager::addShip(int ship_size) noexcept
+void ShipManager::addShip(int ship_size)
 {
     unused_ships_.push_back(Ship(ship_size));
 }
