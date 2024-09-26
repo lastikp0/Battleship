@@ -55,7 +55,7 @@ private:
 
         void setStatus(FieldCellStatus status) noexcept;
 
-        void attackCell(int damage) noexcept;
+        void attackCell(int damage);
 
         bool isShip() const noexcept;
 
