@@ -28,6 +28,14 @@ int main()
     manager.printShips();
     field.attackCell(0, 0, 1); // OK
     field.attackCell(6, 10, 1); // Error
+
+    field.attackCell(1, 0, 0);
+    field.attackCell(2, 0, 1);
+    field.attackCell(3, 0, 0);
+    field.attackCell(0, 1, 0);
+    field.attackCell(1, 1, 0);
+    field.attackCell(2, 1, 0);
+    field.attackCell(3, 1, 0);
     
     manager.printShips();
     field.printField();
