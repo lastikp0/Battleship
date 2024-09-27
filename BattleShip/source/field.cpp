@@ -26,7 +26,7 @@ Field::Field(int size_x, int size_y)
 }
 
 Field::Field(const Field& other) :
-    Field(other.size_x_, other.size_x_)
+    Field(other.size_x_, other.size_y_)
 {}
 
 Field& Field::operator=(const Field& other)
