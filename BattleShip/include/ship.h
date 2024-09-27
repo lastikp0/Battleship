@@ -42,7 +42,7 @@ private:
     public:
         ShipSegment();
 
-        ~ShipSegment();
+        ~ShipSegment() = default;
 
         void takeDamege(int damage);
 

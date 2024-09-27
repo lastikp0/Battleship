@@ -4,6 +4,8 @@
 #include <iostream>
 #include <initializer_list>
 #include <vector>
+#include <list>
+#include <utility>
 #include "ship.h"
 #include "field.h"
 
@@ -22,17 +24,16 @@ public:
 
     void addShip(int ship_size);
 
-    const std::vector<Ship>& getUnusedShips() const noexcept;
+    std::vector<Ship> getUnusedShips() const noexcept;
 
-    const std::vector<Ship>& getUsedShips() const noexcept;
+    std::vector<Ship> getUsedShips() const noexcept;
 
     int getUnusedShipsSize() const noexcept;
 
     int getUsedShipsSize() const noexcept;
 
 private:
-    std::vector<Ship> unused_ships_;
-    std::vector<Ship> used_ships_;
+    std::list<std::pair<Ship, bool>> ships_;
 };
 
 #endif

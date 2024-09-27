@@ -77,8 +77,6 @@ Ship::ShipSegment::ShipSegment()
     health_ = kMaxHealth;
 }
 
-Ship::ShipSegment::~ShipSegment() = default;
-
 void Ship::ShipSegment::takeDamege(int damage)
 {
     if (damage < 0) {
