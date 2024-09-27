@@ -5,18 +5,30 @@
 
 int main()
 {
-    ShipManager ship_manager({1, 3, 4});
-    ship_manager.printShips();
+    Ship test_ship_1(2); // OK
+    Ship test_ship_2(0); // Error
+    Ship test_ship_3(5); // Error
 
-    Field field(5,5);
+    test_ship_1.damageSegment(0, 1); // OK
+    test_ship_1.damageSegment(0, -1); // Error
+    test_ship_1.damageSegment(3, 1); // Error
 
-    ship_manager.placeShip(field, 0, 1, 1, ShipOrientation::horizontal);
-    ship_manager.placeShip(field, 2, 0, 3, ShipOrientation::horizontal);
+    ShipManager manager({1, 3, 4});
+    manager.printShips();
 
-    ship_manager.addShip(2);
+    Field field(5, 5);
 
-    ship_manager.printShips();
+    manager.placeShip(field, 1, 0, 0, ShipOrientation::horizontal); // OK
+    manager.placeShip(field, 1, 0, 3, ShipOrientation::horizontal); // Error
+    manager.placeShip(field, 2, 0, 0, ShipOrientation::vertical); // Error
+    manager.placeShip(field, 2, 3, 0, ShipOrientation::vertical); // Error
+
+    manager.addShip(2);
+
+    manager.printShips();
+    field.attackCell(0, 0, 1); // OK
+    field.attackCell(6, 10, 1); // Error
+    
+    manager.printShips();
     field.printField();
-
-    return 0;
 }
