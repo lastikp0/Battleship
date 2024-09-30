@@ -11,10 +11,23 @@ ShipManager::ShipManager() = default;
  
 ShipManager::ShipManager(std::initializer_list<int> ship_sizes)
 {
-    for (auto ship : ship_sizes) {
-        ships_.push_back({Ship(ship), false});
+    for (auto ship_size : ship_sizes) {
+        Ship* ship = new Ship(ship_size);
+        ships_.push_back({ship, false});
     }
 }
+
+ShipManager::ShipManager(const ShipManager& other)
+{
+    ships_.resize(other.ships_.size());
+    for (int i = 0; i < ships_.size(); i++) {
+        ships_[i].first = new Ship(other.ships_[i].first.getSize());
+        //damage segments?
+        ships_[i].second = (other.ships_[i].second;
+    }
+}
+
+//method that copies placement of ships on new Field
 
 ShipManager::~ShipManager()
 {
