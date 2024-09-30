@@ -64,7 +64,7 @@ private:
 
         ~ShipSegment() = default;
 
-        void takeDamege(int damage);
+        void takeDamege(int damage) noexcept;
 
         void setHealth(int health);
 
