@@ -109,13 +109,13 @@ void Field::placeShip(Ship* ship, int x, int y, ShipOrientation orientation)
     }
 
     ship->setOrientation(orientation);
+    ship->setHeadX(x);
+    ship->setHeadY(y);
+    
     int segment_index = 0;     
     for (int i = x; i < x + offset_x + 1; i++) {
         for (int j = y; j < y + offset_y + 1; j++) {
-            ship->setSegmentCoordX(segment_index, i);
-            ship->setSegmentCoordY(segment_index, j);
-            field_[i][j].setShipSegment(ship, segment_index);
-            segment_index++;
+            field_[i][j].setShipSegment(ship, segment_index++);
         }
     }
 }
