@@ -18,8 +18,7 @@ ShipManager::ShipManager(std::initializer_list<int> ship_sizes)
 
 ShipManager::~ShipManager()
 {
-    for (int i = 0; i < ships_.size(); i++)
-    {
+    for (int i = 0; i < ships_.size(); i++) {
         delete ships_[i].first;
     }
     ships_.clear();
