@@ -91,7 +91,7 @@ public:
 	{
 		std::cout << "placeShip()_ShipManager" << std::endl;
 		field.placeShip(ships[0].first, 0, 0);
-		ships[0].second = false;
+		ships[0].second = true;
 	}
 	
 	void printShipID()
