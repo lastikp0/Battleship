@@ -44,19 +44,17 @@ public:
 
     void damageSegment(int index, int damage);
 
-    void healSegment(int index, int heal);
-
     void setOrientation(ShipOrientation orientation) noexcept;
 
     ShipOrientation getOrientation() const noexcept;
 
-    void setSegmentCoordX(int index, int coord);
+    void setHeadX(int head_x);
 
-    int getSegmentCoordX(int index);
+    int getHeadX() const noexcept;
 
-    void setSegmentCoordY(int index, int coord);
+    void setHeadY(int head_y);
 
-    int getSegmentCoordY(int index);
+    int getHeadY() const noexcept;
 
 private:
     class ShipSegment
@@ -68,33 +66,23 @@ private:
 
         void takeDamege(int damage);
 
-        void takeHeal(int heal);
-
         void setHealth(int health);
 
         int getHealth() const noexcept;
 
         ShipSegmentStatus getStatus() const noexcept;
 
-        void setCoordX(int coord) noexcept;
-
-        int getCoordX() const noexcept;
-
-        void setCoordY(int coord) noexcept;
-
-        int getCoordY() const noexcept;
-
     private:
         int kMaxHealth = 2;
         int health_;
-        int coord_x_;
-        int coord_y_;
     };
 
     int kMinSize = 1;
     int kMaxSize = 4;
     int size_;
     ShipOrientation orientation_;
+    int head_x_;
+    int head_y_;
     std::vector<ShipSegment> segments_;
 };
 
