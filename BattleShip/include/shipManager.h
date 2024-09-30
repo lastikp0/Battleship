@@ -4,7 +4,6 @@
 #include <iostream>
 #include <initializer_list>
 #include <vector>
-#include <list>
 #include <utility>
 #include "ship.h"
 #include "field.h"
@@ -33,7 +32,7 @@ public:
     int getUsedShipsSize() const noexcept;
 
 private:
-    std::list<std::pair<Ship, bool>> ships_;
+    std::vector<std::pair<Ship*, bool>> ships_;
 };
 
 #endif
