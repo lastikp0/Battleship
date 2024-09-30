@@ -31,11 +31,11 @@ void ShipManager::copyShipsFromOldToNewField(Field* old_field, Field* new_field)
         if (ships_[i].second == old_field) {
             Ship* ship = new Ship(ships_[i].first->getSize());
 
-            for (int j = 0; j < ships_[i].first->getSize(); j++) {
+            for (int j = 0; j < ship->getSize(); j++) {
                 ship->setSegmentHealth(j, ships_[i].first->getSegmentHealth(j));
             }
 
-            new_field->placeShip(ship, ships_[i].first->getSegmentCoordX(0), ships_[i].first->getSegmentCoordY(0), ships_[i].first->getOrientation());
+            new_field->placeShip(ship, ships_[i].first->getHeadX(0), ships_[i].first->getHeadY(0), ships_[i].first->getOrientation());
 
             ships_.push_back({ship, new_field});
         }
