@@ -13,21 +13,34 @@ ShipManager::ShipManager(std::initializer_list<int> ship_sizes)
 {
     for (auto ship_size : ship_sizes) {
         Ship* ship = new Ship(ship_size);
-        ships_.push_back({ship, false});
+        ships_.push_back({ship, nullptr});
     }
 }
 
-ShipManager::ShipManager(const ShipManager& other)
+void ShipManager::copyShipsFromOldToNewField(Field* old_field, Field* new_field)
 {
-    ships_.resize(other.ships_.size());
-    for (int i = 0; i < ships_.size(); i++) {
-        ships_[i].first = new Ship(other.ships_[i].first.getSize());
-        //damage segments?
-        ships_[i].second = (other.ships_[i].second;
+    if (old_field == nullptr || new_field == nullptr) {
+        throw std::invalid_argument("Field is nullptr");
+    }
+    if (old_field == new_field) {
+        throw std::logic_error("Old and New fields are same");
+    }
+
+    int size = ships_.size();
+    for (int i = 0; i < size; i++) {
+        if (ships_[i].second == old_field) {
+            Ship* ship = new Ship(ships_[i].first->getSize());
+
+            for (int j = 0; j < ships_[i].first->getSize(); j++) {
+                ship->setSegmentHealth(j, ships_[i].first->getSegmentHealth(j));
+            }
+
+            new_field->placeShip(ship, ships_[i].first->getSegmentCoordX(0), ships_[i].first->getSegmentCoordY(0), ships_[i].first->getOrientation());
+
+            ships_.push_back({ship, new_field});
+        }
     }
 }
-
-//method that copies placement of ships on new Field
 
 ShipManager::~ShipManager()
 {
@@ -39,6 +52,7 @@ ShipManager::~ShipManager()
 
 void ShipManager::printShips() const noexcept
 {
+    int counter = 0;
     for (auto ship: ships_) {
         std::cout << "Ship " << counter++ << ": ";
         for (int i = 0; i < ship.first->getSize(); i++) {
@@ -67,30 +81,31 @@ void ShipManager::printShips() const noexcept
     return;
 }
 
-void ShipManager::placeShip(Field& field, int index, int x, int y, ShipOrientation orientation)
+void ShipManager::placeShip(Field* field, int index, int x, int y, ShipOrientation orientation)
 {
     if (index < 0 || index >= ships_.size()) {
         throw std::out_of_range("Index out of range");
     }
 
-    if (ships_[i].second) {
+    if (ships_[index].second) {
         throw std::logic_error("Ship was already placed to field");
     }
 
-    ships_[i].second = true;
-    field.placeShip(ships_[i].first, x, y, orientation);
+    ships_[index].second = field;
+    field->placeShip(ships_[index].first, x, y, orientation);
 }
 
 void ShipManager::addShip(int ship_size)
 {
-    ships_.push_back({Ship(ship_size), false});
+    Ship* ship = new Ship(ship_size);
+    ships_.push_back({ship, nullptr});
 }
 
 std::vector<Ship> ShipManager::getUnusedShips() const noexcept
 {
     std::vector<Ship> unused_ships;
     for(auto ship: ships_)
-        if(ship.second == false)
+        if(ship.second == nullptr)
             unused_ships.push_back(*ship.first);
     return unused_ships;
 }
@@ -99,7 +114,7 @@ std::vector<Ship> ShipManager::getUsedShips() const noexcept
 {
     std::vector<Ship> used_ships;
     for(auto ship: ships_)
-        if(ship.second == false)
+        if(ship.second != nullptr)
             used_ships.push_back(*ship.first);
     return used_ships;
 }
@@ -108,7 +123,7 @@ int ShipManager::getUnusedShipsSize() const noexcept
 {
     int unused_ships_num;
     for(auto ship: ships_)
-        if(ship.second == false)
+        if(ship.second == nullptr)
             unused_ships_num++;
     return unused_ships_num;
 }
@@ -117,7 +132,7 @@ int ShipManager::getUsedShipsSize() const noexcept
 {
     int used_ships_num;
     for(auto ship: ships_)
-        if(ship.second == false)
+        if(ship.second != nullptr)
             used_ships_num++;
     return used_ships_num;
 }

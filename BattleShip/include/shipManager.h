@@ -15,13 +15,13 @@ public:
 
     explicit ShipManager(std::initializer_list<int> ship_sizes);
 
-    ShipManager(const ShipManager& other);
+    void copyShipsFromOldToNewField(Field* old_field, Field* new_field);
 
     ~ShipManager();
 
     void printShips() const noexcept;
 
-    void placeShip(Field& field, int index, int x, int y, ShipOrientation orientation);
+    void placeShip(Field* field, int index, int x, int y, ShipOrientation orientation);
 
     void addShip(int ship_size);
 
@@ -34,7 +34,7 @@ public:
     int getUsedShipsSize() const noexcept;
 
 private:
-    std::vector<std::pair<Ship*, bool>> ships_;
+    std::vector<std::pair<Ship*, Field*>> ships_;
 };
 
 #endif

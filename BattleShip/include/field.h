@@ -6,12 +6,6 @@
 #include <algorithm>
 #include <stdexcept>
 #include "ship.h"
- 
-enum class ShipOrientation : int
-{
-    horizontal,
-    vertical
-};
 
 enum class FieldCellStatus : int
 {

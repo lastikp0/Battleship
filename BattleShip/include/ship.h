@@ -3,6 +3,12 @@
 
 #include <vector>
 #include <stdexcept>
+ 
+enum class ShipOrientation : int
+{
+    horizontal,
+    vertical
+};
 
 enum class ShipStatus : int
 {
@@ -28,6 +34,10 @@ public:
 
     int getSize() const noexcept;
 
+    void setSegmentHealth(int index, int health);
+
+    int getSegmentHealth(int index) const;
+
     ShipSegmentStatus getSegmentStatus(int index) const;
 
     ShipStatus getShipStatus() const noexcept;
@@ -35,6 +45,18 @@ public:
     void damageSegment(int index, int damage);
 
     void healSegment(int index, int heal);
+
+    void setOrientation(ShipOrientation orientation) noexcept;
+
+    ShipOrientation getOrientation() const noexcept;
+
+    void setSegmentCoordX(int index, int coord);
+
+    int getSegmentCoordX(int index);
+
+    void setSegmentCoordY(int index, int coord);
+
+    int getSegmentCoordY(int index);
 
 private:
     class ShipSegment
@@ -48,7 +70,19 @@ private:
 
         void takeHeal(int heal);
 
+        void setHealth(int health);
+
+        int getHealth() const noexcept;
+
         ShipSegmentStatus getStatus() const noexcept;
+
+        void setCoordX(int coord) noexcept;
+
+        int getCoordX() const noexcept;
+
+        void setCoordY(int coord) noexcept;
+
+        int getCoordY() const noexcept;
 
     private:
         int kMaxHealth = 2;
@@ -60,6 +94,7 @@ private:
     int kMinSize = 1;
     int kMaxSize = 4;
     int size_;
+    ShipOrientation orientation_;
     std::vector<ShipSegment> segments_;
 };
 

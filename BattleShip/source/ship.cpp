@@ -11,6 +11,8 @@ Ship::Ship(int size)
         throw std::logic_error("Ship size can be from 1 to 4");
     }
 
+    orientation_ = ShipOrientation::horizontal;
+    
     size_ = size;
 
     for (int i = 0; i < size_; i++) {
@@ -26,6 +28,24 @@ Ship::~Ship()
 int Ship::getSize() const noexcept
 {
     return size_;
+}
+
+void Ship::setSegmentHealth(int index, int health)
+{
+    if (index < 0 || index >= size_) {
+        throw std::out_of_range("Ship segment index out of range");
+    }
+
+    segments_[index].setHealth(health);
+}
+
+int Ship::getSegmentHealth(int index) const
+{
+    if (index < 0 || index >= size_) {
+        throw std::out_of_range("Ship segment index out of range");
+    }
+
+    return segments_[index].getHealth();
 }
 
 ShipSegmentStatus Ship::getSegmentStatus(int index) const
@@ -72,9 +92,57 @@ void Ship::healSegment(int index, int heal)
     segments_[index].takeHeal(heal);
 }
 
+void Ship::setOrientation(ShipOrientation orientation) noexcept
+{
+    orientation_ = orientation;
+}
+
+ShipOrientation Ship::getOrientation() const noexcept
+{
+    return orientation_;
+}
+
+void Ship::setSegmentCoordX(int index, int coord)
+{
+    if (index < 0 || index >= size_) {
+        throw std::out_of_range("Ship segment index out of range");
+    }
+
+    segments_[index].setCoordX(coord);
+}
+
+int Ship::getSegmentCoordX(int index)
+{
+    if (index < 0 || index >= size_) {
+        throw std::out_of_range("Ship segment index out of range");
+    }
+
+    return segments_[index].getCoordX();
+}
+
+void Ship::setSegmentCoordY(int index, int coord)
+{
+    if (index < 0 || index >= size_) {
+        throw std::out_of_range("Ship segment index out of range");
+    }
+
+    segments_[index].setCoordY(coord);
+}
+
+int Ship::getSegmentCoordY(int index)
+{
+    if (index < 0 || index >= size_) {
+        throw std::out_of_range("Ship segment index out of range");
+    }
+
+    return segments_[index].getCoordY();
+}
+
 Ship::ShipSegment::ShipSegment()
 {
     health_ = kMaxHealth;
+    coord_x_ = -1;
+    coord_y_ = -1;
 }
 
 void Ship::ShipSegment::takeDamege(int damage)
@@ -95,6 +163,20 @@ void Ship::ShipSegment::takeHeal(int heal)
     health_ = std::min(kMaxHealth, health_ + heal);
 }
 
+void Ship::ShipSegment::setHealth(int health)
+{
+    if (health < 0 || health > kMaxHealth) {
+        throw std::invalid_argument("Wrong ShipSegment health ammout");
+    }
+
+    health_ = health;
+}
+
+int Ship::ShipSegment::getHealth() const noexcept
+{
+    return health_;
+}
+
 ShipSegmentStatus Ship::ShipSegment::getStatus() const noexcept
 {
     if (health_ == kMaxHealth) {
@@ -104,4 +186,24 @@ ShipSegmentStatus Ship::ShipSegment::getStatus() const noexcept
     } else {
         return ShipSegmentStatus::damaged;
     }
+}
+
+void Ship::ShipSegment::setCoordX(int coord) noexcept
+{
+    coord_x_ = coord;
+}
+
+int Ship::ShipSegment::getCoordX() const noexcept
+{
+    return coord_x_;
+}
+
+void Ship::ShipSegment::setCoordY(int coord) noexcept
+{
+    coord_y_ = coord;
+}
+
+int Ship::ShipSegment::getCoordY() const noexcept
+{
+    return coord_y_;
 }
