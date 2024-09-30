@@ -15,6 +15,8 @@ public:
 
     explicit ShipManager(std::initializer_list<int> ship_sizes);
 
+    ShipManager(const ShipManager& other);
+
     ~ShipManager();
 
     void printShips() const noexcept;
