@@ -53,6 +53,8 @@ private:
     private:
         int kMaxHealth = 2;
         int health_;
+        int coord_x_;
+        int coord_y_;
     };
 
     int kMinSize = 1;
