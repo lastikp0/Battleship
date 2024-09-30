@@ -18,19 +18,21 @@ ShipManager::ShipManager(std::initializer_list<int> ship_sizes)
 
 ShipManager::~ShipManager()
 {
+    for (int i = 0; i < ships_.size(); i++)
+    {
+        delete ships_[i].first;
+    }
     ships_.clear();
 }
 
 void ShipManager::printShips() const noexcept
 {
-
-    int counter = 0;
     for (auto ship: ships_) {
         std::cout << "Ship " << counter++ << ": ";
-        for (int i = 0; i < ship.first.getSize(); i++) {
-            if (ship.first.getSegmentStatus(i) == ShipSegmentStatus::intact) {
+        for (int i = 0; i < ship.first->getSize(); i++) {
+            if (ship.first->getSegmentStatus(i) == ShipSegmentStatus::intact) {
                 std::cout << "[2]";
-            } else if (ship.first.getSegmentStatus(i) == ShipSegmentStatus::damaged) {
+            } else if (ship.first->getSegmentStatus(i) == ShipSegmentStatus::damaged) {
                 std::cout << "[1]";
             } else {
                 std::cout << "[0]";
@@ -59,15 +61,12 @@ void ShipManager::placeShip(Field& field, int index, int x, int y, ShipOrientati
         throw std::out_of_range("Index out of range");
     }
 
-    std::list<std::pair<Ship, bool>>::iterator it = ships_.begin();
-    std::advance(it, index);
-
-    if (it->second) {
+    if (ships_[i].second) {
         throw std::logic_error("Ship was already placed to field");
     }
 
-    it->second = true;
-    field.placeShip(&(it->first), x, y, orientation);
+    ships_[i].second = true;
+    field.placeShip(ships_[i].first, x, y, orientation);
 }
 
 void ShipManager::addShip(int ship_size)
@@ -80,7 +79,7 @@ std::vector<Ship> ShipManager::getUnusedShips() const noexcept
     std::vector<Ship> unused_ships;
     for(auto ship: ships_)
         if(ship.second == false)
-            unused_ships.push_back(ship.first);
+            unused_ships.push_back(*ship.first);
     return unused_ships;
 }
 
@@ -89,7 +88,7 @@ std::vector<Ship> ShipManager::getUsedShips() const noexcept
     std::vector<Ship> used_ships;
     for(auto ship: ships_)
         if(ship.second == false)
-            used_ships.push_back(ship.first);
+            used_ships.push_back(*ship.first);
     return used_ships;
 }
 
