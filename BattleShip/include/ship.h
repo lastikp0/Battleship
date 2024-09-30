@@ -48,11 +48,11 @@ public:
 
     ShipOrientation getOrientation() const noexcept;
 
-    void setHeadX(int head_x);
+    void setHeadX(int head_x) noexcept;
 
     int getHeadX() const noexcept;
 
-    void setHeadY(int head_y);
+    void setHeadY(int head_y) noexcept;
 
     int getHeadY() const noexcept;
 
