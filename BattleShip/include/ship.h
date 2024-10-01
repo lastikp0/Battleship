@@ -30,13 +30,17 @@ public:
 
     explicit Ship(int size);
 
+    Ship(const Ship& other);
+
+    Ship& operator=(const Ship& other);
+
+    Ship(Ship&& other);
+
+    Ship& operator=(Ship&& other);
+
     ~Ship();
 
     int getSize() const noexcept;
-
-    void setSegmentHealth(int index, int health);
-
-    int getSegmentHealth(int index) const;
 
     ShipSegmentStatus getSegmentStatus(int index) const;
 
@@ -62,13 +66,17 @@ private:
     public:
         ShipSegment();
 
+        ShipSegment(const ShipSegment& other);
+
+        ShipSegment& operator=(const ShipSegment& other);
+
+        ShipSegment(ShipSegment&& other);
+
+        ShipSegment& operator=(ShipSegment&& other);
+
         ~ShipSegment() = default;
 
         void takeDamege(int damage) noexcept;
-
-        void setHealth(int health);
-
-        int getHealth() const noexcept;
 
         ShipSegmentStatus getStatus() const noexcept;
 

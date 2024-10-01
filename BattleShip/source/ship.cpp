@@ -20,6 +20,55 @@ Ship::Ship(int size)
     }
 }
 
+Ship::Ship(const Ship& other) :
+    Ship(other.size_)
+{
+    orientation_ = other.orientation_;
+
+    head_x_ = other.head_x_;
+    head_y_ = other.head_y_;
+
+    for (int i = 0; i < size_; i++) {
+        segments_[i] = other.segments_[i];
+    }
+}
+
+Ship& Ship::operator=(const Ship& other)
+{
+    orientation_ = other.orientation_;
+    
+    head_x_ = other.head_x_;
+    head_y_ = other.head_y_;
+
+    size_ = other.size_;
+
+    for (int i = 0; i < size_; i++) {
+        segments_.push_back(ShipSegment());
+        segments_[i] = other.segments_[i];
+    }
+
+    return *this;
+}
+
+Ship::Ship(Ship&& other) :
+    size_(std::move(other.size_)),
+    orientation_(std::move(other.orientation_)),
+    head_x_(std::move(other.head_x_)),
+    head_y_(std::move(other.head_y_)),
+    segments_(std::move(other.segments_))
+{}
+
+Ship& Ship::operator=(Ship&& other)
+{
+    size_ = std::move(other.size_);
+    orientation_ = std::move(other.orientation_);
+    head_x_ = std::move(other.head_x_);
+    head_y_ = std::move(other.head_y_);
+    segments_ = std::move(other.segments_);
+
+    return *this;
+}
+
 Ship::~Ship()
 {
     segments_.clear();
@@ -28,26 +77,6 @@ Ship::~Ship()
 int Ship::getSize() const noexcept
 {
     return size_;
-}
-
-//replce get/set SegmentHealth with copy construct
-
-void Ship::setSegmentHealth(int index, int health)
-{
-    if (index < 0 || index >= size_) {
-        throw std::out_of_range("Ship segment index out of range");
-    }
-
-    segments_[index].setHealth(health);
-}
-
-int Ship::getSegmentHealth(int index) const
-{
-    if (index < 0 || index >= size_) {
-        throw std::out_of_range("Ship segment index out of range");
-    }
-
-    return segments_[index].getHealth();
 }
 
 ShipSegmentStatus Ship::getSegmentStatus(int index) const
@@ -110,7 +139,7 @@ void Ship::setHeadY(int head_y) noexcept
     head_y_ = head_y;
 }
 
-int Ship::getHeadY(int index) const noexcept
+int Ship::getHeadY() const noexcept
 {
     return head_y_;
 }
@@ -120,23 +149,29 @@ Ship::ShipSegment::ShipSegment()
     health_ = kMaxHealth;
 }
 
+Ship::ShipSegment::ShipSegment(const ShipSegment& other) :
+    health_(other.health_)
+{}
+
+Ship::ShipSegment& Ship::ShipSegment::operator=(const ShipSegment& other)
+{
+    health_ = other.health_;
+    return *this;
+}
+
+Ship::ShipSegment::ShipSegment(ShipSegment&& other) :
+    health_(std::move(other.health_))
+{}
+
+Ship::ShipSegment& Ship::ShipSegment::operator=(ShipSegment&& other)
+{
+    health_ = std::move(other.health_);
+    return *this;
+}
+
 void Ship::ShipSegment::takeDamege(int damage) noexcept
 {
     health_ = std::max(0, health_ - damage);
-}
-
-void Ship::ShipSegment::setHealth(int health)
-{
-    if (health < 0 || health > kMaxHealth) {
-        throw std::invalid_argument("Wrong ShipSegment health ammout");
-    }
-
-    health_ = health;
-}
-
-int Ship::ShipSegment::getHealth() const noexcept
-{
-    return health_;
 }
 
 ShipSegmentStatus Ship::ShipSegment::getStatus() const noexcept

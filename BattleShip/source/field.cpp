@@ -27,7 +27,13 @@ Field::Field(int size_x, int size_y)
 
 Field::Field(const Field& other) :
     Field(other.size_x_, other.size_y_)
-{}
+{
+    for (int x = 0; x < size_x_; x++) {
+        for (int y = 0; y < size_y_; y++) {
+            field_[x][y].setStatus(other.field_[x][y].getStatus());
+        }
+    }
+}
 
 Field& Field::operator=(const Field& other)
 {
@@ -40,9 +46,10 @@ Field& Field::operator=(const Field& other)
 
     field_.resize(size_x_);
 
-    for (int i = 0; i < size_x_; i++) {
-        for (int j = 0; j < size_y_; j++) {
-            field_[i].push_back(FieldCell());
+    for (int x = 0; x < size_x_; x++) {
+        for (int y = 0; y < size_y_; y++) {
+            field_[x].push_back(FieldCell());
+            field_[x][y].setStatus(other.field_[x][y].getStatus());
         }
     }
 
