@@ -48,18 +48,6 @@ public:
 
     void damageSegment(int index, int damage);
 
-    void setOrientation(ShipOrientation orientation) noexcept;
-
-    ShipOrientation getOrientation() const noexcept;
-
-    void setHeadX(int head_x) noexcept;
-
-    int getHeadX() const noexcept;
-
-    void setHeadY(int head_y) noexcept;
-
-    int getHeadY() const noexcept;
-
 private:
     class ShipSegment
     {
@@ -88,9 +76,6 @@ private:
     int kMinSize = 1;
     int kMaxSize = 4;
     int size_;
-    ShipOrientation orientation_;
-    int head_x_;
-    int head_y_;
     std::vector<ShipSegment> segments_;
 };
 

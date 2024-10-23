@@ -5,29 +5,42 @@
 
 int main()
 {
-    ShipManager manager({1, 3, 4});
-    manager.printShips();
+    int playerDamage = 1;
+
+    ShipManager ship_manager({1, 2, 3, 4});
+
+    ship_manager.printShips();
 
     Field field(5, 5);
 
-    manager.placeShip(&field, 1, 0, 0, ShipOrientation::horizontal);
-    manager.printShips();
+    field.placeShip(ship_manager.getUnusedShip(2), 0, 0, ShipOrientation::horizontal);
+    ship_manager.makeShipUsed(2);
 
-    field.attackCell(0, 0, 1);
-    field.attackCell(1, 0, 0);
-    field.attackCell(3, 0, 0);
-    field.attackCell(0, 1, 0);
-    field.attackCell(1, 1, 0);
-    field.attackCell(2, 1, 0);
-    field.attackCell(3, 1, 0);
-
-    manager.printShips();
-
-    Field field_copy(field);
-    manager.copyShipsFromOldToNewField(&field, &field_copy);
-
-    manager.printShips();
-    field.attackCell(2, 0, 1);
+    ship_manager.printShips();
     field.printField();
-    field_copy.printField();
+
+    Field new_field(field);
+
+    field.attackCell(0, 0, playerDamage);
+    new_field.attackCell(0, 0, playerDamage);
+
+    ship_manager.printShips();
+    field.printField();
+    new_field.printField();
+
+    playerDamage *= 2;
+    if (field.attackCell(1, 0, playerDamage)) {
+        std::cout << "+\n";
+    } else {
+        std::cout << "-\n";
+    }
+    
+    playerDamage *= 2;
+    if (field.attackCell(2, 0, playerDamage)) {
+        std::cout << "+\n";
+    } else {
+        std::cout << "-\n";
+    }
+
+    return 0;
 }

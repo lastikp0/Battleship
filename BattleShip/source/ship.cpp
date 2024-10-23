@@ -10,8 +10,6 @@ Ship::Ship(int size)
     if (size < kMinSize || size > kMaxSize) {
         throw std::logic_error("Ship size can be from 1 to 4");
     }
-
-    orientation_ = ShipOrientation::horizontal;
     
     size_ = size;
 
@@ -23,11 +21,6 @@ Ship::Ship(int size)
 Ship::Ship(const Ship& other) :
     Ship(other.size_)
 {
-    orientation_ = other.orientation_;
-
-    head_x_ = other.head_x_;
-    head_y_ = other.head_y_;
-
     for (int i = 0; i < size_; i++) {
         segments_[i] = other.segments_[i];
     }
@@ -35,11 +28,6 @@ Ship::Ship(const Ship& other) :
 
 Ship& Ship::operator=(const Ship& other)
 {
-    orientation_ = other.orientation_;
-    
-    head_x_ = other.head_x_;
-    head_y_ = other.head_y_;
-
     size_ = other.size_;
 
     for (int i = 0; i < size_; i++) {
@@ -52,18 +40,12 @@ Ship& Ship::operator=(const Ship& other)
 
 Ship::Ship(Ship&& other) :
     size_(std::move(other.size_)),
-    orientation_(std::move(other.orientation_)),
-    head_x_(std::move(other.head_x_)),
-    head_y_(std::move(other.head_y_)),
     segments_(std::move(other.segments_))
 {}
 
 Ship& Ship::operator=(Ship&& other)
 {
     size_ = std::move(other.size_);
-    orientation_ = std::move(other.orientation_);
-    head_x_ = std::move(other.head_x_);
-    head_y_ = std::move(other.head_y_);
     segments_ = std::move(other.segments_);
 
     return *this;
@@ -112,36 +94,6 @@ void Ship::damageSegment(int index, int damage)
     }
 
     segments_[index].takeDamege(damage);
-}
-
-void Ship::setOrientation(ShipOrientation orientation) noexcept
-{
-    orientation_ = orientation;
-}
-
-ShipOrientation Ship::getOrientation() const noexcept
-{
-    return orientation_;
-}
-
-void Ship::setHeadX(int head_x) noexcept
-{    
-    head_x_ = head_x;
-}
-
-int Ship::getHeadX() const noexcept
-{
-    return head_x_;
-}
-
-void Ship::setHeadY(int head_y) noexcept
-{
-    head_y_ = head_y;
-}
-
-int Ship::getHeadY() const noexcept
-{
-    return head_y_;
 }
 
 Ship::ShipSegment::ShipSegment()

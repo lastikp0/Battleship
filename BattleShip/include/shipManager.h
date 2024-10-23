@@ -4,7 +4,7 @@
 #include <iostream>
 #include <initializer_list>
 #include <vector>
-#include <utility>
+
 #include "ship.h"
 #include "field.h"
 
@@ -15,26 +15,25 @@ public:
 
     explicit ShipManager(std::initializer_list<int> ship_sizes);
 
-    void copyShipsFromOldToNewField(Field* old_field, Field* new_field);
-
     ~ShipManager();
 
     void printShips() const noexcept;
 
-    void placeShip(Field* field, int index, int x, int y, ShipOrientation orientation);
-
     void addShip(int ship_size);
 
-    std::vector<Ship> getUnusedShips() const noexcept;
+    Ship* getUnusedShip(int index) const;
 
-    std::vector<Ship> getUsedShips() const noexcept;
+    Ship* getUsedShip(int index) const;
 
-    int getUnusedShipsSize() const noexcept;
+    void makeShipUsed(int index);
 
-    int getUsedShipsSize() const noexcept;
+    int getUnusedShipSize() const noexcept;
+
+    int getUsedShipSize() const noexcept;
 
 private:
-    std::vector<std::pair<Ship*, Field*>> ships_;
+    std::vector<Ship*> unused_ships_;
+    std::vector<Ship*> used_ships_;
 };
 
 #endif
