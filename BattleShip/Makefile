@@ -1,23 +1,32 @@
 TARGET = ./main
+
 CXX = g++
 
-SRC_DIR = ./source/
 INCLUDE_DIR = ./include/
+INCLUDE = $(wildcard $(INCLUDE_DIR)*/*.h)
+CXXFLAGS = -I $(INCLUDE_DIR)ship/ -I $(INCLUDE_DIR)field/ -I $(INCLUDE_DIR)ability/
+
+SRC_DIR = ./source/
+SRC = $(wildcard $(SRC_DIR)*/*.cpp)
+
 BIN_DIR = ./bin/
+OBJ = $(addprefix $(BIN_DIR), $(patsubst %.cpp, %.o, $(notdir $(SRC))))
 
-CXXFLAGS = -I$(INCLUDE_DIR)
+all : create_bin_dir ability field ship $(TARGET)
 
-SRC = $(wildcard $(SRC_DIR)*.cpp)
+ability :
+	make -C $(SRC_DIR)ability/
 
-OBJ = $(patsubst $(SRC_DIR)%.cpp, $(BIN_DIR)%.o, $(SRC))
+field :
+	make -C $(SRC_DIR)field/
 
-all : create_bin_dir $(TARGET)
+ship :
+	make -C $(SRC_DIR)ship/
 
-
-$(BIN_DIR)%.o : $(SRC_DIR)%.cpp $(INCLUDE_DIR)*.h
+$(BIN_DIR)main.o : $(SRC_DIR)main.cpp $(INCLUDE_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(TARGET) : $(OBJ)
+$(TARGET) : $(OBJ) $(BIN_DIR)main.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 create_bin_dir :
