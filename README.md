@@ -15,6 +15,6 @@ help (default h)
 
 new (default n)
 
-# save.txt - save file
+# save.txt - save file (look but don't touch)
 
 # to start - type "make" while in ./BattleShip; type ./main; profit
