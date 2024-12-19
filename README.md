@@ -1,4 +1,4 @@
-# Battleship
+## Battleship
 
 # commands.txt - command binds in order (if errors in file / no file -> default binds):
 attack (default w)
