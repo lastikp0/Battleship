@@ -25,6 +25,8 @@ public:
     void restart();
 
     void attack(Coords coords);
+
+    bool canCastAbility();
     void ability(IAbilitySettings* settings);
 
     void setTarget(int index);

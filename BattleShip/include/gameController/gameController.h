@@ -132,11 +132,15 @@ private:
                     catch(const std::out_of_range& e)
                     {
                         renderer_.render(e.what());
+                        renderer_.render("Press enter to continue");
+                        input_.getAnything();
                         continue;
                     }
                     catch(const ShipPlacementException& e)
                     {
                         renderer_.render(e.what());
+                        renderer_.render("Press enter to continue");
+                        input_.getAnything();
                         continue;
                     }
                 }
@@ -219,11 +223,15 @@ private:
                     catch(const std::out_of_range& e)
                     {
                         renderer_.render(e.what());
+                        renderer_.render("Press enter to continue");
+                        input_.getAnything();
                         continue;
                     }
                     catch(const ShipPlacementException& e)
                     {
                         renderer_.render(e.what());
+                        renderer_.render("Press enter to continue");
+                        input_.getAnything();
                         continue;
                     }
                 }
@@ -280,6 +288,8 @@ private:
                     catch(const AttackOutOfRangeException& e)
                     {
                         renderer_.render(e.what());
+                        renderer_.render("Press enter to continue");
+                        input_.getAnything();
                         continue;
                     }
                 }
@@ -292,6 +302,16 @@ private:
         
         commands_["ability"] = [&]()
         {
+            bool can_cast = game_.canCastAbility();
+            if (!can_cast) {
+                renderer_.render("Can't use ability twice per move");
+
+                renderer_.render("Press enter to continue");
+                input_.getAnything();
+
+                return;
+            }
+
             renderer_.render("Ability");
 
             Participant* current = game_.getParticipant(game_.getCurrentIndex());
@@ -331,7 +351,9 @@ private:
                     Participant* target = game_.getParticipant(game_.getTargetIndex());
 
                     BombardmentSettings settings(*(target->field), current->damage);
+                    
                     game_.ability(&settings);
+
                     current->damage = 1;
                 }
 

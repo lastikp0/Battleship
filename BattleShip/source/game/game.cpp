@@ -28,7 +28,7 @@ void Game::setParticipantsCount(int player_count, int bot_count)
         throw std::invalid_argument("Bots count can't be negative");
     }
     if (player_count + bot_count < 2) {
-        throw std::logic_error("Participants count must be greater than 1");
+        throw std::runtime_error("Participants count must be greater than 1");
     }
 
     game_state_.player_count_ = player_count;
@@ -37,6 +37,7 @@ void Game::setParticipantsCount(int player_count, int bot_count)
 
 void Game::start()
 {
+    game_state_.ability_used_ = false;
     game_state_.current_participant_index_ = 0;
     game_state_.round_count_ = 0;
     game_state_.move_count_ = 0;
@@ -180,6 +181,7 @@ void Game::attack(Coords coords)
         }
     }
 
+    game_state_.ability_used_ = false;
     game_state_.save_ = false;
 
     if (getAliveParticipantCount() != 1) {
@@ -190,17 +192,24 @@ void Game::attack(Coords coords)
     }
 }
 
+bool Game::canCastAbility()
+{
+    return (game_state_.ability_used_ == false);
+}
+
 void Game::ability(IAbilitySettings* settings)
 {
+    if (game_state_.ability_used_) {
+        throw std::runtime_error("Can't use ability twice per move");
+    }
+
     Participant* participant = game_state_.participants_[game_state_.current_participant_index_];
     participant->ability_manager->castAbility(settings);
 
+    game_state_.ability_used_ = true;
     game_state_.save_ = false;
 
-    if (getAliveParticipantCount() != 1) {
-        game_state_.current_participant_index_ = (++game_state_.current_participant_index_) % getParticipantCount();
-        game_state_.move_count_++;
-    } else {
+    if (getAliveParticipantCount() == 1) {
         game_state_.status_ = GameStatus::finished;
     }
 }

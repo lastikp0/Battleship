@@ -35,6 +35,7 @@ struct GameState
     GameStatus status_;
 
     int current_participant_index_;
+    bool ability_used_;
     int round_count_;
     int move_count_;
 

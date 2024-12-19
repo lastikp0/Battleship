@@ -52,6 +52,14 @@ std::ifstream& operator>>(std::ifstream& in, GameState& state)
         state.status_ = GameStatus::finished;
     }
 
+    int ability_used;
+    ss >> ability_used;
+    if (ability_used == 0) {
+        state.ability_used_ = false;
+    } else {
+        state.ability_used_ = true;
+    }
+
     ss >> state.current_participant_index_;
     ss >> state.round_count_;
     ss >> state.move_count_;
@@ -164,6 +172,12 @@ std::ofstream& operator<<(std::ofstream& out, GameState& state)
         data += "1\n";
     }
 
+    if (state.ability_used_) {
+        data += "1\n";
+    } else {
+        data += "0\n";
+    }
+
     data += std::to_string(state.current_participant_index_) + " ";
     data += std::to_string(state.round_count_) + " ";
     data += std::to_string(state.move_count_) + "\n";
@@ -189,6 +203,7 @@ std::ofstream& operator<<(std::ofstream& out, GameState& state)
     out << hasher.hash2 << "\n";
 
     out << data;
+
 
     state.save_ = true;
 
