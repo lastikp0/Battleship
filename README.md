@@ -1,6 +1,7 @@
-## Battleship
+# Battleship
 
-# commands.txt - command binds in order (if errors in file / no file -> default binds):
+## commands.txt - command binds in order (if errors in file / no file -> default binds):
+
 attack (default w)
 
 ability (default q)
@@ -15,6 +16,6 @@ help (default h)
 
 new (default n)
 
-# save.txt - save file (look but don't touch)
+## save.txt - save file (look but don't touch)
 
-# to start - type "make" while in ./BattleShip; type ./main; profit
+## to start - type "make" while in ./BattleShip; type ./main; profit
