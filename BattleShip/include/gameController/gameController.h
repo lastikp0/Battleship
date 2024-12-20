@@ -346,7 +346,7 @@ private:
                     }
                 } else {
                     renderer_.render("Bombardment!");
-                    renderer_.render("Garanteed hit (stacks with Double damage)");
+                    renderer_.render("Garanteed hit");
 
                     Participant* target = game_.getParticipant(game_.getTargetIndex());
 
