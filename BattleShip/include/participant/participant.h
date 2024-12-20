@@ -10,8 +10,6 @@
 #include "shipPlacementException.h"
 #include "attackOutOfRangeException.h"
 
-class IOMediator;
-
 struct Participant
 {
 	Field* field;
