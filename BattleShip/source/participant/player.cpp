@@ -5,9 +5,10 @@
 #include "abilityManager.h"
 
 Player::Player() :
-    Participant(),
-    ability_manager(nullptr)
-{}
+    Participant()
+{
+    ability_manager = nullptr;
+}
 
 Player::Player(Coords field_size, std::vector<int> ship_sizes) :
     Participant(field_size, ship_sizes)
